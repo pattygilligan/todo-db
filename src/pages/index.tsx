@@ -7,6 +7,10 @@ interface TodoListItem {
   done: boolean;
 }
 
+interface TodoListResponse {
+  todoList: TodoListItem[];
+}
+
 export default function Home() {
   const [todoList, setTodoList] = useState<TodoListItem[]>([]);
 
@@ -14,7 +18,7 @@ export default function Home() {
     fetch("/api/todo", {
       method: "GET",
     })
-      .then((response) => response.json())
+      .then((response) => response.json() as Promise<TodoListResponse>)
       .then((data) => setTodoList(data.todoList))
       .catch((error) => console.log("error getting todolist", error));
   }, []);
